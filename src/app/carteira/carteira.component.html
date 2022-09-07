@@ -1,1 +1,17 @@
-<p>carteira works!</p>
+<div class="wrap">
+    <div class="container">
+        <table class="zebra">
+            <caption>Carteira de ativos</caption>
+            <tr>
+                <th>Ativo</th>
+                <th>Lote</th>
+                <th>Qtde.</th>
+            </tr>
+            <tr *ngFor="let acao of this.acoesEmCarteira">
+                <td *ngIf="acao.quantidade > 0">{{acao.ativo}}</td>
+                <td *ngIf="acao.quantidade > 0"><button class="lote">{{acao.lote}}</button></td>
+                <td *ngIf="acao.quantidade > 0">{{acao.quantidade}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

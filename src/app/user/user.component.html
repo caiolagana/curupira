@@ -1,1 +1,21 @@
-<p>user works!</p>
+<div class="column">
+    <ng-container *ngIf="usuario && false">
+        <img width="100px" id="avatar" style="border-radius: 50px;" [src]="usuario.imgurl">
+    </ng-container>
+    <table class="infotable">
+        <tr>
+            <td><b>Usuário</b></td>
+            <td *ngIf="usuario" class="info">{{usuario!.nome}}</td>
+        </tr>
+        <tr>
+            <td><b>Cash</b></td>
+            <td *ngIf="usuario" class="info">R$ {{usuario!.cash}}</td>
+        </tr>
+    </table>
+
+    <mat-form-field appearance="outline">
+        <mat-label> Crédito </mat-label>
+        <input matInput type="number" [formControl]="adicionarCredito">
+    </mat-form-field>
+    <button mat-stroked-button (click)="adicionaCredito()"> Adicionar </button>
+</div>

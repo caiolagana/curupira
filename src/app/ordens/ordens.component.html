@@ -1,1 +1,45 @@
-<p>ordens works!</p>
+<div class="container">
+    <table class="zebra">
+        <caption>Ordens de venda (user)</caption>
+        <tr>
+            <th>Ativo</th>
+            <th>Lote</th>
+            <th>Qtde.</th>
+            <th>R$</th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let ordem of this.ordensDeVenda">
+            <td>{{ordem.ativo}}</td>
+            <td><button class="lote">{{ordem.lote}}</button></td>
+            <td>{{ordem.quantidade - ordem.qtdeExecutada}}</td>
+            <td>{{ordem.preco  | number:'1.2':'br'}}</td>
+            <td>
+                <span (click)="cancelarOrdemVenda(ordem.key)" class="material-icons">
+                    delete
+                </span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="container">
+    <table class="zebra">
+        <caption>Ordens de compra (user)</caption>
+        <tr>
+            <th>Ativo</th>
+            <th>Qtde.</th>
+            <th>R$</th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let ordem of this.ordensDeCompra">
+            <td>{{ordem.ativo}}</td>
+            <td>{{ordem.quantidade  - ordem.qtdeExecutada}}</td>
+            <td>{{ordem.preco  | number:'1.2':'br'}}</td>
+            <td>
+                <span (click)="cancelarOrdemCompra(ordem.key)" class="material-icons">
+                    delete
+                </span>
+            </td>
+        </tr>
+    </table>
+</div>

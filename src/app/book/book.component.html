@@ -1,1 +1,53 @@
-<p>book works!</p>
+<div class="column">
+    <!--
+    <mat-form-field appearance="outline">
+        <mat-label>Ativo</mat-label>
+        <mat-select [(ngModel)]="ativoSelecionado" name="selecionaAtivo"
+            (selectionChange)="selecionaAtivo.emit(ativoSelecionado)">
+            <mat-option *ngFor="let ativo of ativosListados" [value]="ativo.codigo">
+                {{ativo.codigo}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    -->
+    <div class="cabecalho"> <h3>Livro de ofertas {{ativoSelecionado}}</h3></div>
+    <ng-container *ngIf="ativoSelecionado != ''">
+        <div class="column">
+            <table class="zebra">
+                <tr>
+                    <th class="labels">Lote</th>
+                    <th class="labels">Qtd.</th>
+                    <th class="labels">Venda</th>
+                    <th class="labels">Compra</th>
+                    <th class="labels">Qtd.</th>
+                </tr>
+                <tr *ngFor="let i of [0,1,2,3,4,5,6,7,8,9,10]">
+                    <ng-container *ngIf="ofertasVenda != null else elseBlockNull">
+                        <ng-container *ngIf="i < ofertasVenda.length else elseBlockVenda">
+                            <td><button class="lote" (click)="loteSelecionado.emit(ofertasVenda[i].lote)">
+                                    {{ofertasVenda[i].lote}} </button></td>
+                            <td> {{ofertasVenda[i].quantidade - ofertasVenda[i].qtdeExecutada}} </td>
+                            <td style="border-right: 1px solid #ccc;"> {{ofertasVenda[i].preco | number:'1.2':'br'}} </td>
+                        </ng-container>
+                        <ng-template #elseBlockVenda>
+                            <td class="invisible">-</td>
+                            <td class="invisible">-</td>
+                            <td style="border-right: 1px solid #ccc;" class="invisible">-</td>
+                        </ng-template>
+                    </ng-container>
+                    <ng-container *ngIf="ofertasCompra != null  else elseBlockNull">
+                        <ng-container *ngIf="i < ofertasCompra.length else elseBlockCompra">
+                            <td> {{ofertasCompra[i].preco | number:'1.2':'br'}} </td>
+                            <td> {{ofertasCompra[i].quantidade - ofertasCompra[i].qtdeExecutada}} </td>
+                        </ng-container>
+                        <ng-template #elseBlockCompra>
+                            <td class="invisible">-</td>
+                            <td class="invisible">-</td>
+                        </ng-template>
+                    </ng-container>
+                </tr>
+            </table>
+        </div>
+    </ng-container>
+</div>
+<ng-template #elseBlockNull>NULL</ng-template>

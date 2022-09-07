@@ -1,1 +1,17 @@
-<p>painel works!</p>
+<!--
+    http://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/L14119.htm#:~:text=LEI%20N%C2%BA%2014.119%2C%20DE%2013%20DE%20JANEIRO%20DE%202021,-Mensagem%20de%20veto&text=Mensagem%20de%20veto-,Institui%20a%20Pol%C3%ADtica%20Nacional%20de%20Pagamento%20por%20Servi%C3%A7os%20Ambientais%3B%20e,adequ%C3%A1%2Dlas%20%C3%A0%20nova%20pol%C3%ADtica.
+-->
+
+<div class="column">
+    <div class="item" *ngFor="let ativo of this.ativosListados" (click)="selecionaAtivo(ativo.codigo)"
+        [ngStyle]="(ativoEscolhido==ativo.codigo) && {'border-left': '3px solid #EF6C00'} || null">
+        <div class="titulos">
+            <div class="titulo">{{ativo.titulo}}</div>
+            <div class="codigo">{{ativo.codigo}}</div>
+        </div>
+        <div class="precos">
+            <div class="porcentagem">{{ativo.porcentagem | number:'1.2'}}%</div>
+            <div class="preco">R$ {{ativo.ultimoPreco | number:'1.2':'br'}}</div>
+        </div>
+    </div>
+</div>

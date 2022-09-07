@@ -1,1 +1,125 @@
-<p>compravende works!</p>
+<div class="cabecalho">
+    <h3>Negociação</h3>
+    <div class="spacer"></div>
+    <button (click)="tab='comprar'"
+        [ngStyle]="(tab=='comprar') && {'background-color': '#eee'} || null">Comprar</button>
+    <button (click)="tab='vender'" [ngStyle]="(tab=='vender') && {'background-color': '#eee'} || null">Vender</button>
+</div>
+<ng-container *ngIf="usuario else elseBlockComprar">
+    <ng-container [ngSwitch]="tab">
+        <ng-container *ngSwitchCase="'comprar'">
+            <div class="column">
+                <mat-form-field appearance="outline" style="width: 216px">
+                    <mat-label>Ativo</mat-label>
+                    <mat-select [(ngModel)]="ativoSelecionadoParaCompra" name="selecionaAcaoCompra">
+                        <mat-option *ngFor="let ativo of ativosListados" [value]="ativo.codigo">
+                            {{ativo.codigo}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="row">
+                    <mat-form-field appearance="outline" style="width: 100px">
+                        <mat-label>Quantidade</mat-label>
+                        <input matInput (keypress)="keyPressNumbers($event)" [formControl]="numeroDeAcoesParaCompra">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" style="width: 100px">
+                        <mat-label>Preço</mat-label>
+                        <input matInput type="number" [formControl]="precoDeCompra">
+                    </mat-form-field>
+                </div>
+                <table class="infotable" style="margin-bottom: 36px; margin-top: 12px;">
+                    <tr>
+                        <td><b>Corretagem</b></td>
+                        <td class="info">
+                            <ng-container *ngIf="precoDeCompra.value! > 0 && numeroDeAcoesParaCompra.value! > 0">
+                                R$ {{precoDeCompra.value! * numeroDeAcoesParaCompra.value! * 0.01 | number:'1.2':'br'}}
+                            </ng-container>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Valor da ordem</b></td>
+                        <td class="info">
+                            <ng-container *ngIf="precoDeCompra.value! > 0 && numeroDeAcoesParaCompra.value! > 0">
+                                <div [ngStyle]="(precoDeCompra.value! * numeroDeAcoesParaCompra.value! * 1.01 > usuario.cash) && {'color': '#ff0000'} || null">R$ {{numeroDeAcoesParaCompra.value! * precoDeCompra.value! * 1.01 | number:'1.2':'br'}}</div>
+                            </ng-container>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-bottom: 0px;"><b>Cash (R$):</b></td>
+                        <td style="border-bottom: 0px;">{{usuario.cash | number:'1.2':'br'}}</td>
+                    </tr>
+                </table>
+                <div class="rodape">
+                    <button mat-raised-button (click)="limparCamposDeCompra()"> Limpar
+                    </button>
+                    <button mat-raised-button color="primary" (click)="lancarOrdemCompra()"> Lançar ordem </button>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'vender'">
+            <div class="column">
+                <mat-form-field appearance="outline" style="width: 216px">
+                    <mat-label>Ação</mat-label>
+                    <mat-select [(ngModel)]="keyAcaoSelecionada" name="selecionaAcaoVenda">
+                        <mat-option *ngFor="let acao of acoesEmCarteira" [value]="acao.key">
+                            {{acao.ativo}} ({{acao.lote}})
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="row">
+                    <mat-form-field appearance="outline" style="width: 100px">
+                        <mat-label>Quantidade</mat-label>
+                        <input matInput [formControl]="numeroDeAcoesParaVenda">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" style="width: 100px">
+                        <mat-label>Preço</mat-label>
+                        <input matInput [formControl]="precoDeVenda">
+                    </mat-form-field>
+                </div>
+                <table class="infotable" style="margin-bottom: 36px; margin-top: 12px;">
+                    <tr>
+                        <td><b>Ativo</b></td>
+                        <td class="info">
+                            <ng-container *ngIf="keyAcaoSelecionada != null">
+                                {{acoesEmCarteira[dictAcoesEmCarteira[keyAcaoSelecionada]].ativo}}
+                            </ng-container>
+                        </td>
+                        <td><b>Qtde.</b></td>
+                        <ng-container *ngIf="keyAcaoSelecionada != null else elseBlockQuantidade">
+                            <td class="info"
+                                [ngStyle]="(acoesEmCarteira[dictAcoesEmCarteira[keyAcaoSelecionada]].quantidade < numeroDeAcoesParaVenda.value!) && {'color': '#ff0000'} || null">
+                                {{numeroDeAcoesParaVenda.value |
+                                number:'1.0'}}/{{acoesEmCarteira[dictAcoesEmCarteira[keyAcaoSelecionada]].quantidade}}
+                            </td>
+                        </ng-container>
+                    </tr>
+                    <tr>
+                        <td><b>Preço</b></td>
+                        <td class="info">
+                            <ng-container *ngIf="precoDeVenda.value! > 0">
+                                R$ {{precoDeVenda.value | number:'1.2':'br'}}
+                            </ng-container>
+                        </td>
+                        <td class="invisible">-</td>
+                        <td class="invisible">-</td>
+                    </tr>
+                    <tr>
+                        <td style="border-bottom: 0px;" colspan="2"><b>Valor da ordem</b></td>
+                        <td style="border-bottom: 0px;" colspan="2" class="info">
+                            <ng-container *ngIf="numeroDeAcoesParaVenda.value! > 0 && precoDeVenda.value! > 0">
+                                R$ {{numeroDeAcoesParaVenda.value! * precoDeVenda.value! | number:'1.2':'br'}}
+                            </ng-container>
+                        </td>
+                    </tr>
+                </table>
+                <div class="rodape">
+                    <button mat-raised-button (click)="limparCamposDeVenda()"> Limpar
+                    </button>
+                    <button mat-raised-button color="primary" (click)="lancarOrdemVenda()"> Lançar ordem </button>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+</ng-container>
+<ng-template #elseBlockComprar>Faça login para operar</ng-template>
+<ng-template #elseBlockQuantidade><td></td></ng-template>

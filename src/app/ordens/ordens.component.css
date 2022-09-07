@@ -1,0 +1,9 @@
+.material-icons {
+    color:var(--grey2);
+    transition: all 0.2s ease-in-out;
+}
+
+.material-icons:hover {
+    cursor: pointer;
+    color: black;
+}

@@ -12,6 +12,7 @@ import { MapComponent } from './map/map.component';
 import { OrdensComponent } from './ordens/ordens.component';
 import { PainelComponent } from './painel/painel.component';
 import { UserComponent } from './user/user.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -28,12 +29,10 @@ import { UserComponent } from './user/user.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-// GIT PAT
-// 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

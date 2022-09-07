@@ -1,1 +1,56 @@
-<p>lote works!</p>
+<div class="column">
+    <!--
+    <mat-form-field appearance="outline">
+        <mat-label>Lote</mat-label>
+        <mat-select [(ngModel)]="loteSelecionado" name="selecionaAtivo" (selectionChange)="selecionaLote()">
+            <mat-option *ngFor="let lote of lotesListados" [value]="lote.codigo">
+                {{lote.codigo}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    -->
+    <div class="cabecalho"><h3>Lotes</h3></div>
+    <ng-container *ngIf="(loteSelecionado != null && lotesListados.length > 0) else elseBlockLote">
+        <img width="100%" id="loteimg">
+        <table style="margin-top: 12px;" class="infotable">
+            <tr>
+                <td><b>Lote</b></td>
+                <td class="info">{{lotesListados[dictLotesListados[loteSelecionado]].codigo}}</td>
+                <td><b>Ativo</b></td>
+                <td class="info">{{lotesListados[dictLotesListados[loteSelecionado]].ativo}}</td>
+            </tr>
+            <tr>
+                <td><b>Área</b></td>
+                <td class="info">{{lotesListados[dictLotesListados[loteSelecionado]].area}} ha</td>
+                <td><b>Cadastro</b></td>
+                <td class="info">{{lotesListados[dictLotesListados[loteSelecionado]].data.toDate() | date:'dd/MM/yy'}}
+                </td>
+            </tr>
+            <tr>
+                <td><b>Qtde.</b></td>
+                <td class="info">{{lotesListados[dictLotesListados[loteSelecionado]].quantidade}}</td>
+                <td><b>Zona</b></td>
+                <td class="info">{{lotesListados[dictLotesListados[loteSelecionado]].zona}}</td>
+            </tr>
+            <tr>
+                <td><b>Manejo</b></td>
+                <td class="info">{{lotesListados[dictLotesListados[loteSelecionado]].manejo}}</td>
+                <td><b>Dossiê</b></td>
+                <td><a href='#'><span class="material-icons">
+                            open_in_new
+                        </span></a></td>
+            </tr>
+            <tr>
+                <td><b>Bioma</b></td>
+                <td colspan="3" class="info">{{lotesListados[dictLotesListados[loteSelecionado]].bioma}}</td>
+            </tr>
+            <tr>
+                <td style="border-bottom: 0px;"><b>GPS</b></td>
+                <td style="border-bottom: 0px;" colspan="3"><a
+                        href="https://www.google.com/maps/@-22.4875095,-45.2232268,17z"
+                        target="_blank">-22.4875095,-45.2232268,17</a></td>
+            </tr>
+        </table>
+    </ng-container>
+    <ng-template #elseBlockLote></ng-template>
+</div>
